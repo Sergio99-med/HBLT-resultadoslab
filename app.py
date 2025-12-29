@@ -7,7 +7,7 @@ import io
 # --- CONFIGURACIÓN ---
 st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
 
-st.title("🏥 Extractor HBLT - Resultados de Exámenes de Laboratorio")
+st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
 st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
 st.caption("Recuerda siempre revisar que sea el PDF de tu paciente")
 
