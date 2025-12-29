@@ -1,13 +1,14 @@
 import streamlit as st
 import pdfplumber
 import re
+import requests
+import io
 
 # --- CONFIGURACIÓN ---
-st.set_page_config(page_title="HBLT Extractor", page_icon="🏥", layout="centered")
+st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
 
-st.title("🏥 Extractor HBLT - Resultados de Exámenes de Laboratorio")
-st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
-st.caption("Recuerda siempre revisar que sea el PDF de tu paciente")
+st.title("🏥 Extractor HBL - Sergio")
+st.markdown("### Tu herramienta para evoluciones rápidas ⚡")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -24,9 +25,10 @@ ABREVIACIONES = {
     "Cetonas": "Cetonas", "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
 }
 
-def procesar_pdf(uploaded_file):
+def procesar_pdf(archivo_bytes):
     resultados = []
-    with pdfplumber.open(uploaded_file) as pdf:
+    # Abrimos el archivo desde los bytes en memoria
+    with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
             text = page.extract_text(layout=True)
             if not text: continue
@@ -36,7 +38,7 @@ def procesar_pdf(uploaded_file):
                 line = line.replace('*', '').strip()
                 if not line: continue
                 
-                # --- FILTROS DE BASURA ---
+                # --- FILTROS ---
                 ignorar = ["Avda", "Carrera", "Teléfono", "Miguel", "Ministerio", "Salud", 
                            "Hospital", "Barros", "Luco", "RUT", "Paciente", "Solicitante", 
                            "Validado", "Fecha", "Hora", "Página", "Nota", "Valor", "Critico", 
@@ -52,7 +54,7 @@ def procesar_pdf(uploaded_file):
                 nombre = ""
                 valor = ""
 
-                # Búsquedas
+                # Busquedas
                 match_num = re.search(r'^(.+?)\s+([<>]?-?\d+[.,]?\d*)', line)
                 palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo)'
                 match_text = re.search(r'^(.+?)\s+(' + palabras_clave + r'.*)$', line, re.IGNORECASE)
@@ -82,22 +84,48 @@ def procesar_pdf(uploaded_file):
     
     return " - ".join(resultados)
 
-# --- INTERFAZ ---
-st.write("---")
-archivo = st.file_uploader("📂 Cargar PDF (Arrastra aquí)", type="pdf")
+# --- INTERFAZ CON PESTAÑAS ---
+tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 
-if archivo:
-    # Eliminé la estructura compleja de try/except anidada para evitar tu error.
-    # Ahora es lineal y segura.
-    try:
-        texto = procesar_pdf(archivo)
-        
-        if texto:
-            st.success("✅ ¡Extracción exitosa!")
-            st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-            st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
-        else:
-            st.warning("⚠️ No encontré resultados. Verifica el PDF.")
-            
-    except Exception as e:
-        st.error(f"Ocurrió un error: {e}")
+# --- OPCIÓN 1: ARCHIVO ---
+with tab1:
+    archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
+    if archivo:
+        try:
+            texto = procesar_pdf(archivo)
+            if texto:
+                st.success("✅ ¡Leído desde archivo!")
+                st.text_area("📋 Copia aquí:", value=texto, height=150)
+            else:
+                st.warning("⚠️ Sin resultados legibles.")
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+# --- OPCIÓN 2: LINK (EXPERIMENTAL) ---
+with tab2:
+    url = st.text_input("Pega el link del PDF aquí:")
+    st.caption("Nota: Si el link es de la Intranet del hospital, puede que no funcione por seguridad.")
+    
+    if url:
+        if st.button("Extraer desde Link"):
+            try:
+                with st.spinner("Intentando descargar..."):
+                    response = requests.get(url, timeout=10)
+                    
+                    if response.status_code == 200:
+                        # Convertimos la respuesta web en un archivo virtual
+                        archivo_virtual = io.BytesIO(response.content)
+                        texto_url = procesar_pdf(archivo_virtual)
+                        
+                        if texto_url:
+                            st.success("✅ ¡Leído desde Link!")
+                            st.text_area("📋 Copia aquí (Link):", value=texto_url, height=150)
+                        else:
+                            st.warning("⚠️ El link abrió, pero no detecté datos.")
+                    else:
+                        st.error(f"❌ Error al acceder al link (Código {response.status_code}). Probablemente es una red privada.")
+            except Exception as e:
+                st.error(f"❌ No se pudo conectar. El servidor no tiene acceso a la red del hospital. Error: {e}")
+
+st.write("---")
+st.caption("Tip Pro: Si el Link falla, presiona Ctrl+S en el PDF y arrástralo a la primera pestaña.")
