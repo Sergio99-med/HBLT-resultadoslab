@@ -99,8 +99,8 @@ with tab1:
             if texto:
                 st.success("✅ ¡Extracción exitosa!")
                 st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-                st.caption("Tip: Puedes editar el texto de arriba antes de copiar. 
-                ¡Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
+                st.caption("Tip: Puedes editar el texto de arriba antes de copiar si lo necesitas.")                
+                st.caption("Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
             else:
                 st.warning("⚠️ Sin resultados legibles.")
         except Exception as e:
