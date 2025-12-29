@@ -94,7 +94,7 @@ with tab1:
     if archivo:
         try:
             texto = procesar_pdf(archivo)
-            if texto:
+           if texto:
             st.success("✅ ¡Extracción exitosa!")
             st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
             st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
