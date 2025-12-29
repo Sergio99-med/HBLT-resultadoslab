@@ -9,7 +9,7 @@ st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centere
 
 st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
 st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
-st.caption("Recuerda siempre revisar que sea el PDF de tu paciente")
+st.caption("Recuerda siempre revisar que el PDF sea el de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -91,7 +91,7 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-    st.caption("Nota: Resultados de examenes que no sean numéricos es probable que no aparezcan, digitalos manualmente.")
+    st.caption("Nota: Resultados de examenes que sean NO numéricos, es probable que no aparezcan. Digitalos manualmente.")
     if archivo:
         try:
             texto = procesar_pdf(archivo)
@@ -99,7 +99,8 @@ with tab1:
             if texto:
                 st.success("✅ ¡Extracción exitosa!")
                 st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-                st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
+                st.caption("Tip: Puedes editar el texto de arriba antes de copiar. 
+                ¡Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
             else:
                 st.warning("⚠️ Sin resultados legibles.")
         except Exception as e:
