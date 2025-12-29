@@ -3,11 +3,11 @@ import pdfplumber
 import re
 
 # --- CONFIGURACIÓN ---
-st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
+st.set_page_config(page_title="HBLT Extractor", page_icon="🏥", layout="centered")
 
-st.title("🏥 Extractor HBL - Sergio")
-st.markdown("### Tu herramienta para evoluciones rápidas ⚡")
-st.caption("Sube el PDF, edita si es necesario y copia.")
+st.title("🏥 Extractor HBLT - Resultados de Exámenes de Laboratorio")
+st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
+st.caption("Recuerda siempre revisar que sea el PDF de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -94,8 +94,8 @@ if archivo:
         
         if texto:
             st.success("✅ ¡Extracción exitosa!")
-            st.text_area("📋 Copia tu evolución aquí:", value=texto, height=150)
-            st.caption("Tip: Puedes editar el texto arriba antes de copiar.")
+            st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
+            st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
         else:
             st.warning("⚠️ No encontré resultados. Verifica el PDF.")
             
