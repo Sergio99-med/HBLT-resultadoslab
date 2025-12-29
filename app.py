@@ -7,8 +7,9 @@ import io
 # --- CONFIGURACIÓN ---
 st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
 
-st.title("🏥 Extractor HBL - Sergio")
-st.markdown("### Tu herramienta para evoluciones rápidas ⚡")
+st.title("🏥 Extractor HBLT - Resultados de Exámenes de Laboratorio")
+st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
+st.caption("Recuerda siempre revisar que sea el PDF de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -94,8 +95,9 @@ with tab1:
         try:
             texto = procesar_pdf(archivo)
             if texto:
-                st.success("✅ ¡Leído desde archivo!")
-                st.text_area("📋 Copia aquí:", value=texto, height=150)
+            st.success("✅ ¡Extracción exitosa!")
+            st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
+            st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
             else:
                 st.warning("⚠️ Sin resultados legibles.")
         except Exception as e:
@@ -120,6 +122,7 @@ with tab2:
                         if texto_url:
                             st.success("✅ ¡Leído desde Link!")
                             st.text_area("📋 Copia aquí (Link):", value=texto_url, height=150)
+                            st.caption("Tip Pro: Si el Link falla, presiona Ctrl+S en el PDF y arrástralo a la primera pestaña.")
                         else:
                             st.warning("⚠️ El link abrió, pero no detecté datos.")
                     else:
@@ -128,4 +131,3 @@ with tab2:
                 st.error(f"❌ No se pudo conectar. El servidor no tiene acceso a la red del hospital. Error: {e}")
 
 st.write("---")
-st.caption("Tip Pro: Si el Link falla, presiona Ctrl+S en el PDF y arrástralo a la primera pestaña.")
