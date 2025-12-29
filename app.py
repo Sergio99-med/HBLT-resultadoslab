@@ -2,13 +2,12 @@ import streamlit as st
 import pdfplumber
 import re
 
-# Configuración de la página
+# --- CONFIGURACIÓN ---
 st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
 
-# Título y descripción
-st.title("🏥 Extractor HBL - Resultados de Exámenes de Laboratorio")
-st.markdown("Sube tu PDF del Barros Luco y obtén los resultados al instante.")
-st.caption("Sube el PDF, revisa el texto y copialo a la ficha.")
+st.title("🏥 Extractor HBL - Sergio")
+st.markdown("### Tu herramienta para evoluciones rápidas ⚡")
+st.caption("Sube el PDF, edita si es necesario y copia.")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -53,7 +52,7 @@ def procesar_pdf(uploaded_file):
                 nombre = ""
                 valor = ""
 
-                # Estrategias de búsqueda
+                # Búsquedas
                 match_num = re.search(r'^(.+?)\s+([<>]?-?\d+[.,]?\d*)', line)
                 palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo)'
                 match_text = re.search(r'^(.+?)\s+(' + palabras_clave + r'.*)$', line, re.IGNORECASE)
@@ -88,18 +87,17 @@ st.write("---")
 archivo = st.file_uploader("📂 Cargar PDF (Arrastra aquí)", type="pdf")
 
 if archivo:
-    with st.spinner('Analizando documento...'):
-        try:
-            texto = procesar_pdf(archivo)
-            if texto:
-                st.success("✅ ¡Extracción exitosa!")
-                
-                # AQUI ESTÁ EL CAMBIO MAGICO: st.text_area
-                # height=150 define qué tan alto es el cuadro inicialmente
-                st.text_area("📋 ¡Listo! Copia el texto de abajo y recuerda siempre revisar que esten los datos correctos:", value=texto, height=150)
-                
-                st.caption("Tip: Puedes editar el texto dentro del cuadro antes de copiarlo si hay algún error.")
-            else:
-                st.warning("⚠️ No encontré resultados legibles. Verifica el PDF.")
+    # Eliminé la estructura compleja de try/except anidada para evitar tu error.
+    # Ahora es lineal y segura.
+    try:
+        texto = procesar_pdf(archivo)
+        
+        if texto:
+            st.success("✅ ¡Extracción exitosa!")
+            st.text_area("📋 Copia tu evolución aquí:", value=texto, height=150)
+            st.caption("Tip: Puedes editar el texto arriba antes de copiar.")
+        else:
+            st.warning("⚠️ No encontré resultados. Verifica el PDF.")
+            
     except Exception as e:
-        st.error(f"Error técnico: {e}")
+        st.error(f"Ocurrió un error: {e}")
