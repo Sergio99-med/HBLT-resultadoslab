@@ -94,10 +94,11 @@ with tab1:
     if archivo:
         try:
             texto = procesar_pdf(archivo)
-           if texto:
-            st.success("✅ ¡Extracción exitosa!")
-            st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-            st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
+            # AQUI ESTABA EL ERROR DE INDENTACIÓN, YA ESTÁ CORREGIDO ABAJO
+            if texto:
+                st.success("✅ ¡Extracción exitosa!")
+                st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
+                st.caption("Tip: Puedes editar el texto de arriba antes de copiar. Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente!")
             else:
                 st.warning("⚠️ Sin resultados legibles.")
         except Exception as e:
@@ -115,7 +116,6 @@ with tab2:
                     response = requests.get(url, timeout=10)
                     
                     if response.status_code == 200:
-                        # Convertimos la respuesta web en un archivo virtual
                         archivo_virtual = io.BytesIO(response.content)
                         texto_url = procesar_pdf(archivo_virtual)
                         
