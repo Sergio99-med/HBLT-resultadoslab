@@ -8,7 +8,7 @@ import io
 st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centered")
 
 st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
-st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
+st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 st.caption("Recuerda siempre revisar que el PDF/Link sea el de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
@@ -91,37 +91,39 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-    st.caption("Nota: Resultados de exámenes que sean NO numéricos, es probable que no aparezcan. Digítalos manualmente.")
     
     if archivo:
         try:
             with st.spinner("Procesando documento..."):
                 texto = procesar_pdf(archivo)
             
-            # --- AQUÍ ESTÁ EL CAMBIO CLAVE ---
-            # Verificamos si la longitud del texto es mayor a 0
             if len(texto) > 0:
                 st.success("✅ ¡Extracción exitosa!")
-                st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-                st.caption("Tip: Puedes editar el texto de arriba antes de copiar si lo necesitas.")
-                st.caption("Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
+                
+                # 1. ÁREA DE EDICIÓN
+                st.caption("1️⃣ Revisa y edita el texto si es necesario:")
+                texto_final = st.text_area("Edición", value=texto, height=100, label_visibility="collapsed")
+                
+                # 2. BOTÓN DE COPIADO (Truco st.code)
+                st.caption("2️⃣ Copia el resultado final con un click aquí 👇")
+                st.code(texto_final, language=None)
+                
             else:
-                # Si llega aquí, es porque el PDF se leyó pero no se extrajo nada (ej: es una imagen)
                 st.warning("⚠️ El PDF se procesó, pero no encontré exámenes legibles.")
-                st.info("Posibles causas: \n1. Es un PDF escaneado (imagen).\n2. El formato es muy distinto al estándar.\n3. Intenta subir un PDF original del sistema.")
+                st.info("Posibles causas: \n1. Es un PDF escaneado (imagen).\n2. El formato es muy distinto al estándar.")
                 
         except Exception as e:
             st.error(f"Error técnico: {e}")
 
-# --- OPCIÓN 2: LINK (EXPERIMENTAL) ---
+# --- OPCIÓN 2: LINK ---
 with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
-    st.caption("Nota: Si el link es de la Intranet del hospital, puede que no funcione por seguridad.")
+    st.caption("Nota: Si el link es de la Intranet, puede que no funcione. Usa Ctrl+S para guardar el PDF y súbelo en la otra pestaña.")
     
     if url:
         if st.button("Extraer desde Link"):
             try:
-                with st.spinner("Intentando descargar..."):
+                with st.spinner("Descargando..."):
                     response = requests.get(url, timeout=10)
                     
                     if response.status_code == 200:
@@ -130,13 +132,19 @@ with tab2:
                         
                         if len(texto_url) > 0:
                             st.success("✅ ¡Leído desde Link!")
-                            st.text_area("📋 Copia aquí (Link):", value=texto_url, height=150)
-                            st.caption("Tip Pro: Si el Link falla, presiona Ctrl+S en el PDF y arrástralo a la primera pestaña.")
+                            
+                            # 1. EDICIÓN
+                            st.caption("1️⃣ Revisa y edita:")
+                            texto_url_final = st.text_area("Edición Link", value=texto_url, height=100, label_visibility="collapsed")
+                            
+                            # 2. COPIADO
+                            st.caption("2️⃣ Copia con un click 👇")
+                            st.code(texto_url_final, language=None)
                         else:
-                            st.warning("⚠️ El link abrió, pero no detecté datos (Texto vacío).")
+                            st.warning("⚠️ El link abrió, pero no detecté datos.")
                     else:
-                        st.error(f"❌ Error al acceder al link (Código {response.status_code}). Probablemente es una red privada.")
+                        st.error(f"❌ Error al acceder al link (Código {response.status_code}).")
             except Exception as e:
-                st.error(f"❌ No se pudo conectar. El servidor no tiene acceso a la red del hospital. Error: {e}")
+                st.error(f"❌ No se pudo conectar. Error: {e}")
 
 st.write("---")
