@@ -95,17 +95,23 @@ with tab1:
     
     if archivo:
         try:
-            texto = procesar_pdf(archivo)
+            with st.spinner("Procesando documento..."):
+                texto = procesar_pdf(archivo)
             
-            if texto:
+            # --- AQUÍ ESTÁ EL CAMBIO CLAVE ---
+            # Verificamos si la longitud del texto es mayor a 0
+            if len(texto) > 0:
                 st.success("✅ ¡Extracción exitosa!")
                 st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
                 st.caption("Tip: Puedes editar el texto de arriba antes de copiar si lo necesitas.")
                 st.caption("Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
             else:
-                st.warning("⚠️ Sin resultados legibles.")
+                # Si llega aquí, es porque el PDF se leyó pero no se extrajo nada (ej: es una imagen)
+                st.warning("⚠️ El PDF se procesó, pero no encontré exámenes legibles.")
+                st.info("Posibles causas: \n1. Es un PDF escaneado (imagen).\n2. El formato es muy distinto al estándar.\n3. Intenta subir un PDF original del sistema.")
+                
         except Exception as e:
-            st.error(f"Error: {e}")
+            st.error(f"Error técnico: {e}")
 
 # --- OPCIÓN 2: LINK (EXPERIMENTAL) ---
 with tab2:
@@ -122,12 +128,12 @@ with tab2:
                         archivo_virtual = io.BytesIO(response.content)
                         texto_url = procesar_pdf(archivo_virtual)
                         
-                        if texto_url:
+                        if len(texto_url) > 0:
                             st.success("✅ ¡Leído desde Link!")
                             st.text_area("📋 Copia aquí (Link):", value=texto_url, height=150)
                             st.caption("Tip Pro: Si el Link falla, presiona Ctrl+S en el PDF y arrástralo a la primera pestaña.")
                         else:
-                            st.warning("⚠️ El link abrió, pero no detecté datos.")
+                            st.warning("⚠️ El link abrió, pero no detecté datos (Texto vacío).")
                     else:
                         st.error(f"❌ Error al acceder al link (Código {response.status_code}). Probablemente es una red privada.")
             except Exception as e:
