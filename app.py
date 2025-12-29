@@ -9,7 +9,6 @@ st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centere
 
 st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
 st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
-st.caption("Recuerda siempre revisar que el PDF/Link sea el de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
@@ -28,7 +27,6 @@ ABREVIACIONES = {
 
 def procesar_pdf(archivo_bytes):
     resultados = []
-    # Abrimos el archivo desde los bytes en memoria
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
             text = page.extract_text(layout=True)
@@ -91,6 +89,8 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
+    # AQUI AGREGUÉ LA ADVERTENCIA ARRIBA
+    st.caption("Nota: Resultados de exámenes que sean NO numéricos, es probable que no aparezcan. Digítalos manualmente.")
     
     if archivo:
         try:
@@ -104,13 +104,15 @@ with tab1:
                 st.caption("1️⃣ Revisa y edita el texto si es necesario:")
                 texto_final = st.text_area("Edición", value=texto, height=100, label_visibility="collapsed")
                 
-                # 2. BOTÓN DE COPIADO (Truco st.code)
+                # 2. BOTÓN DE COPIADO
                 st.caption("2️⃣ Copia el resultado final con un click aquí 👇")
                 st.code(texto_final, language=None)
                 
+                # AQUI AGREGUÉ EL RECORDATORIO AL FINAL
+                st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
+                
             else:
                 st.warning("⚠️ El PDF se procesó, pero no encontré exámenes legibles.")
-                st.info("Posibles causas: \n1. Es un PDF escaneado (imagen).\n2. El formato es muy distinto al estándar.")
                 
         except Exception as e:
             st.error(f"Error técnico: {e}")
@@ -118,7 +120,8 @@ with tab1:
 # --- OPCIÓN 2: LINK ---
 with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
-    st.caption("Nota: Si el link es de la Intranet, puede que no funcione. Usa Ctrl+S para guardar el PDF y súbelo en la otra pestaña.")
+    # AQUI AGREGUÉ LA ADVERTENCIA ARRIBA (Junto a la nota del link)
+    st.caption("Nota: Resultados no numéricos pueden no aparecer. Si el link es de la Intranet, usa Ctrl+S y súbelo en la otra pestaña.")
     
     if url:
         if st.button("Extraer desde Link"):
@@ -140,6 +143,9 @@ with tab2:
                             # 2. COPIADO
                             st.caption("2️⃣ Copia con un click 👇")
                             st.code(texto_url_final, language=None)
+                            
+                            # AQUI AGREGUÉ EL RECORDATORIO AL FINAL
+                            st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
                         else:
                             st.warning("⚠️ El link abrió, pero no detecté datos.")
                     else:
