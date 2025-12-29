@@ -91,15 +91,16 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-    st.caption("Nota: Resultados de examenes que sean NO numéricos, es probable que no aparezcan. Digitalos manualmente.")
+    st.caption("Nota: Resultados de exámenes que sean NO numéricos, es probable que no aparezcan. Digítalos manualmente.")
+    
     if archivo:
         try:
             texto = procesar_pdf(archivo)
-            # AQUI ESTABA EL ERROR DE INDENTACIÓN, YA ESTÁ CORREGIDO ABAJO
+            
             if texto:
                 st.success("✅ ¡Extracción exitosa!")
                 st.text_area("📋 Copia los resultados aquí:", value=texto, height=150)
-                st.caption("Tip: Puedes editar el texto de arriba antes de copiar si lo necesitas.")                
+                st.caption("Tip: Puedes editar el texto de arriba antes de copiar si lo necesitas.")
                 st.caption("Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
             else:
                 st.warning("⚠️ Sin resultados legibles.")
