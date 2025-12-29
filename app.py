@@ -92,7 +92,7 @@ with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
     
     # AVISO AZUL (MÁS VISIBLE)
-    st.info("ℹ️ Nota: Resultados NO numéricos (ej: orina) pueden no aparecer automáticamente. Digítalos manual si faltan.")
+    st.info("ℹ️ Nota: Resultados NO numéricos pueden no aparecer automáticamente. Digítalos manualmente si faltan.")
     
     if archivo:
         try:
@@ -125,7 +125,7 @@ with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
     
     # AVISO AZUL
-    st.info("ℹ️ Nota: Si el link es de la Intranet, usa Ctrl+S y súbelo en la otra pestaña.")
+    st.info("Nota: Si el link es de la Intranet, usa Ctrl+S para guardarlo y súbelo en la otra pestaña.")
     
     if url:
         if st.button("Extraer desde Link"):
