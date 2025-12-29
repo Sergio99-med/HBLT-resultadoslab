@@ -125,7 +125,7 @@ with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
     
     # AVISO
-    st.info("Nota: Si el link es de la Intranet, usa Ctrl+S para guardarlo y súbelo en la otra pestaña.")
+    st.info("ℹ️Nota: Si el link es de la Intranet y no funciona, usa Ctrl+S para guardarlo y súbelo en la otra pestaña.")
     
     if url:
         if st.button("Extraer desde Link"):
