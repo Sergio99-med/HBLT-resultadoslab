@@ -27,6 +27,7 @@ ABREVIACIONES = {
 
 def procesar_pdf(archivo_bytes):
     resultados = []
+    # Abrimos el archivo desde los bytes en memoria
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
             text = page.extract_text(layout=True)
@@ -89,7 +90,7 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-    # AQUI AGREGUÉ LA ADVERTENCIA ARRIBA
+    # AQUI ESTÁ LA ADVERTENCIA ARRIBA
     st.caption("Nota: Resultados de exámenes que sean NO numéricos, es probable que no aparezcan. Digítalos manualmente.")
     
     if archivo:
@@ -108,11 +109,12 @@ with tab1:
                 st.caption("2️⃣ Copia el resultado final con un click aquí 👇")
                 st.code(texto_final, language=None)
                 
-                # AQUI AGREGUÉ EL RECORDATORIO AL FINAL
+                # AQUI ESTÁ EL RECORDATORIO AL FINAL
                 st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
                 
             else:
                 st.warning("⚠️ El PDF se procesó, pero no encontré exámenes legibles.")
+                st.info("Posibles causas: \n1. Es un PDF escaneado (imagen).\n2. El formato es muy distinto al estándar.\n3. Intenta subir un PDF original del sistema.")
                 
         except Exception as e:
             st.error(f"Error técnico: {e}")
@@ -120,7 +122,7 @@ with tab1:
 # --- OPCIÓN 2: LINK ---
 with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
-    # AQUI AGREGUÉ LA ADVERTENCIA ARRIBA (Junto a la nota del link)
+    # AQUI ESTÁ LA ADVERTENCIA ARRIBA (Junto a la nota del link)
     st.caption("Nota: Resultados no numéricos pueden no aparecer. Si el link es de la Intranet, usa Ctrl+S y súbelo en la otra pestaña.")
     
     if url:
@@ -144,13 +146,13 @@ with tab2:
                             st.caption("2️⃣ Copia con un click 👇")
                             st.code(texto_url_final, language=None)
                             
-                            # AQUI AGREGUÉ EL RECORDATORIO AL FINAL
+                            # AQUI ESTÁ EL RECORDATORIO AL FINAL
                             st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
                         else:
                             st.warning("⚠️ El link abrió, pero no detecté datos.")
                     else:
-                        st.error(f"❌ Error al acceder al link (Código {response.status_code}).")
+                        st.error(f"❌ Error al acceder al link (Código {response.status_code}). Probablemente es una red privada.")
             except Exception as e:
-                st.error(f"❌ No se pudo conectar. Error: {e}")
+                st.error(f"❌ No se pudo conectar. El servidor no tiene acceso a la red del hospital. Error: {e}")
 
 st.write("---")
