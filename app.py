@@ -90,8 +90,9 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-    # AQUI ESTÁ LA ADVERTENCIA ARRIBA
-    st.caption("Nota: Resultados de exámenes que sean NO numéricos, es probable que no aparezcan. Digítalos manualmente.")
+    
+    # AVISO AZUL (MÁS VISIBLE)
+    st.info("ℹ️ Nota: Resultados NO numéricos (ej: orina) pueden no aparecer automáticamente. Digítalos manual si faltan.")
     
     if archivo:
         try:
@@ -109,8 +110,8 @@ with tab1:
                 st.caption("2️⃣ Copia el resultado final con un click aquí 👇")
                 st.code(texto_final, language=None)
                 
-                # AQUI ESTÁ EL RECORDATORIO AL FINAL
-                st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
+                # AVISO AMARILLO AL FINAL
+                st.warning("⚠️ IMPORTANTE: Verifica siempre que los resultados correspondan a tu paciente.")
                 
             else:
                 st.warning("⚠️ El PDF se procesó, pero no encontré exámenes legibles.")
@@ -122,8 +123,9 @@ with tab1:
 # --- OPCIÓN 2: LINK ---
 with tab2:
     url = st.text_input("Pega el link del PDF aquí:")
-    # AQUI ESTÁ LA ADVERTENCIA ARRIBA (Junto a la nota del link)
-    st.caption("Nota: Resultados no numéricos pueden no aparecer. Si el link es de la Intranet, usa Ctrl+S y súbelo en la otra pestaña.")
+    
+    # AVISO AZUL
+    st.info("ℹ️ Nota: Si el link es de la Intranet, usa Ctrl+S y súbelo en la otra pestaña.")
     
     if url:
         if st.button("Extraer desde Link"):
@@ -146,8 +148,8 @@ with tab2:
                             st.caption("2️⃣ Copia con un click 👇")
                             st.code(texto_url_final, language=None)
                             
-                            # AQUI ESTÁ EL RECORDATORIO AL FINAL
-                            st.warning("⚠️ Recuerda siempre asegurarte que sean los resultados correctos y de tu paciente.")
+                            # AVISO AMARILLO AL FINAL
+                            st.warning("⚠️ IMPORTANTE: Verifica siempre que los resultados correspondan a tu paciente.")
                         else:
                             st.warning("⚠️ El link abrió, pero no detecté datos.")
                     else:
