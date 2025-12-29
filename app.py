@@ -91,6 +91,7 @@ tab1, tab2 = st.tabs(["📂 Subir Archivo", "🔗 Pegar Link"])
 # --- OPCIÓN 1: ARCHIVO ---
 with tab1:
     archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
+    st.caption("Nota: Resultados de examenes que no sean numéricos es probable que no aparezcan, digitalos manualmente.")
     if archivo:
         try:
             texto = procesar_pdf(archivo)
