@@ -9,7 +9,7 @@ st.set_page_config(page_title="HBL Extractor", page_icon="🏥", layout="centere
 
 st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
 st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados al instante.")
-st.caption("Recuerda siempre revisar que el PDF sea el de tu paciente")
+st.caption("Recuerda siempre revisar que el PDF/Link sea el de tu paciente")
 
 # --- DICCIONARIO DE ABREVIACIONES ---
 ABREVIACIONES = {
