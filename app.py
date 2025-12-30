@@ -6,8 +6,8 @@ import io
 # --- CONFIGURACIÓN ---
 st.set_page_config(page_title="HBL Extractor V3.3", page_icon="🏥", layout="centered")
 
-st.title("🏥 Extractor HBLT - Resultados")
-st.markdown("### Sube tu PDF del Barros Luco y obtén la evolución.")
+st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
+st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 
 # --- DICCIONARIO DE ABREVIACIONES Y CORRECCIONES ---
 ABREVIACIONES = {
@@ -25,10 +25,10 @@ ABREVIACIONES = {
     "Nitrogeno Ureico": "BUN", "Urea": "Urea", "Creatinina": "Crea", 
     "Sodio": "Na", "Potasio": "K", "Cloro": "Cl", "Proteina C Reactiva": "PCR", 
     "Acido Urico": "Ac.Urico", "Calcio": "Ca", "Fosforo": "P", 
-    "Proteinas Totales": "Prot.Tot", "Albumina": "Alb", "Ldh": "LDH", 
+    "Proteinas Totales": "Prot T", "Albumina": "Alb", "Ldh": "LDH", 
     "Fosfatasa Alcalina": "FA", "Got": "GOT", "Ast": "GOT", "Got/Ast": "GOT",
     "Gpt": "GPT", "Alt": "GPT", "Gpt/Alt": "GPT", "Ggt": "GGT", "Gama Glutamil": "GGT",
-    "Colesterol Total": "Col.Tot", "Bilirrubina Total": "Bili.T", "Procalcitonina": "Procalcitonina",
+    "Colesterol Total": "Col T", "Bilirrubina Total": "BT", "Bilirrubina Directa": "BD", "Bilirrubina Indirecta": "BI", "Procalcitonina": "Procalcitonina",
     "Troponina T": "Troponina T", "Ck-Total": "CK-Total", "Ck-Mb": "CK-MB",
     
     # Gases
