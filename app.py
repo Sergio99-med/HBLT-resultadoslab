@@ -44,6 +44,8 @@ ABREVIACIONES = {
 
 def procesar_pdf(archivo_bytes):
     resultados = []
+    seen = set() # <--- NUEVO: Conjunto para detectar duplicados
+    
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
             text = page.extract_text(layout=True)
@@ -53,6 +55,12 @@ def procesar_pdf(archivo_bytes):
             for line in lines:
                 line = line.replace('*', '').strip()
                 if not line: continue
+                
+                # --- NUEVO: PRE-PROCESAMIENTO DE ABREVIACIONES ---
+                # Reemplaza el texto en la línea ANTES de extraer, ignorando mayúsculas/minúsculas
+                for nombre_largo, abreviacion in ABREVIACIONES.items():
+                    pattern = re.compile(re.escape(nombre_largo), re.IGNORECASE)
+                    line = pattern.sub(abreviacion, line)
                 
                 # --- 1. FILTROS DE BASURA ADMINISTRATIVA ---
                 ignorar = ["Avda", "Carrera", "Teléfono", "Miguel", "Ministerio", "Salud", 
@@ -96,12 +104,18 @@ def procesar_pdf(archivo_bytes):
                 es_porcentaje = "%" in line
                 
                 nombre_limpio = nombre.replace("%", "").replace(":", "").strip().title()
+                # Como ya reemplazamos al inicio, el nombre_limpio ya debería ser corto, 
+                # pero mantenemos esto por seguridad si algo se escapó.
                 nombre_final = ABREVIACIONES.get(nombre_limpio, nombre_limpio)
                 
                 if es_porcentaje and "%" not in valor:
                     valor = f"{valor}%"
                 
-                resultados.append(f"{nombre_final} {valor}")
+                # --- NUEVO: FILTRO ANTI-DUPLICADOS ---
+                resultado_str = f"{nombre_final} {valor}"
+                if resultado_str not in seen:
+                    resultados.append(resultado_str)
+                    seen.add(resultado_str)
     
     return " - ".join(resultados)
 
