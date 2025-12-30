@@ -7,7 +7,7 @@ import io
 st.set_page_config(page_title="HBL Extractor V3.3", page_icon="🏥", layout="centered")
 
 st.title("🏥 Extractor HBLT - Exámenes de laboratorio")
-st.markdown("### Sube el PDF del Barros Luco y copia y pega los resultados!")
+st.markdown("### Sube el PDF del Barros Luco y obtén los resultados al instante.")
 
 # --- DICCIONARIO DE ABREVIACIONES Y CORRECCIONES ---
 ABREVIACIONES = {
