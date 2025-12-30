@@ -106,7 +106,7 @@ def procesar_pdf(archivo_bytes):
     return " - ".join(resultados)
 
 # --- INTERFAZ ---
-archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
+archivo = st.file_uploader("📂Arrastra tu PDF aquí", type="pdf")
 st.info("ℹ️ Nota: Resultados NO numéricos pueden no aparecer. Digítalos manualmente si faltan.")
 
 if archivo:
