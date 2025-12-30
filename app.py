@@ -107,7 +107,7 @@ def procesar_pdf(archivo_bytes):
 
 # --- INTERFAZ ---
 archivo = st.file_uploader("Arrastra tu PDF aquí", type="pdf")
-st.info("ℹ️ Nota: Resultados NO numéricos (ej: orina) pueden no aparecer automáticamente. Digítalos manual si faltan.")
+st.info("ℹ️ Nota: Resultados NO numéricos (ej: orina) pueden no aparecer o estar erroneos. Digítalos manualmente de ser necesario.")
 
 if archivo:
     try:
