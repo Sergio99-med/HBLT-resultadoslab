@@ -4,43 +4,42 @@ import re
 import io
 
 # --- CONFIGURACIÓN ---
-st.set_page_config(page_title="HBL Extractor V3.4", page_icon="🏥", layout="centered")
+st.set_page_config(page_title="HBL Extractor V3.3", page_icon="🏥", layout="centered")
 
 st.title("🏥 Extractor HBLT - Exámenes de Laboratorio")
 st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 
 # --- DICCIONARIO DE ABREVIACIONES Y CORRECCIONES ---
 ABREVIACIONES = {
-    # Hematología (Actualizado con tu PDF)
+    # Hematología
     "Hemoglobina": "Hb", "Hematocrito": "Hto", "Recuento De Leucocitos": "GB", 
-    "Recuento De Eritrocitos": "GR", # Nuevo
     "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", 
-    "Vcm": "VCM", "Hcm": "HCM", "Chcm": "CHCM", "Rdw-Cv": "RDW", # Nuevo
-    "Neutrofilos": "Neu", "Linfocitos": "Linf", "Monocitos": "Mono", # Nuevos
-    "Eosinofilos": "Eos", "Basofilos": "Baso", # Nuevos
+    "Vcm": "VCM", "Hcm": "HCM", "Chcm": "CHCM",
     
     # Coagulación
     "Tiempo De Protrombina": "TP", 
-    "Tiempo De Protrombina Seg": "TP seg", 
+    "Tiempo De Protrombina Seg": "TP seg", # <--- NUEVO
     "Tiempo De Tromboplastina": "TTPA", "Inr": "INR",
     
     # Bioquímica / Función Renal / Hepática
     "Nitrogeno Ureico": "BUN", "Urea": "Urea", "Creatinina": "Crea", 
     "Sodio": "Na", "Potasio": "K", "Cloro": "Cl", "Proteina C Reactiva": "PCR", 
     "Acido Urico": "Ac.Urico", "Calcio": "Ca", "Fosforo": "P", 
-    "Proteinas Totales": "Prot.Tot", "Albumina": "Alb", "Ldh": "LDH", 
+    "Proteinas Totales": "Prot T", "Albumina": "Alb", "Ldh": "LDH", 
     "Fosfatasa Alcalina": "FA", "Got": "GOT", "Ast": "GOT", "Got/Ast": "GOT",
     "Gpt": "GPT", "Alt": "GPT", "Gpt/Alt": "GPT", "Ggt": "GGT", "Gama Glutamil": "GGT",
-    "Colesterol Total": "Col.Tot", "Bilirrubina Total": "Bili.T", "Procalcitonina": "Procalcitonina",
+    "Colesterol Total": "Col T", "Bilirrubina Total": "BT", "Bilirrubina Directa": "BD", "Bilirrubina Indirecta": "BI", "Procalcitonina": "Procalcitonina",
     "Troponina T": "Troponina T", "Ck-Total": "CK-Total", "Ck-Mb": "CK-MB",
     
     # Gases
-    "Ph": "pH", 
+    "Ph": "pH", # <--- NUEVO
     "Po2": "pO2", "Pco2": "pCO2", "So2": "SatO2", "Hco3": "HCO3", 
     "Exceso De Base": "BE", "Acido Lactico": "Lactato", "Tco2": "tCO2", 
-
-    # Otros (Marcadores, etc)
-    "Pth Intacta": "PTH", "Ferritina": "Ferritina", "Psa Total": "PSA"
+    
+    # Orina / Otros
+    "Glucosa": "Glu", "Sedimento Urinario": "Sedimento", 
+    "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
+    "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
 }
 
 def procesar_pdf(archivo_bytes):
@@ -60,20 +59,12 @@ def procesar_pdf(archivo_bytes):
                            "Hospital", "Barros", "Luco", "RUT", "Paciente", "Solicitante", 
                            "Validado", "Fecha", "Hora", "Página", "Bioquimico", 
                            "Hematologia", "Coagulacion", "Gases", "Orina Completa", "Urocultivo",
-                           "Inmunoquimica", "Quimica Sanguinea", "Marcadores Tumorales", "Hormonas", 
-                           "Perfil Lipidico", "Perfil Hepatico"]
+                           "Inmunoquimica", "Quimica Sanguinea"]
                 
-                # --- 1.1 FILTROS PARA IGNORAR ORINA (Añadidos para limpiar) ---
-                ignorar_orina = ["Aspecto", "Color", "Densidad", "Ph Urinario", "Nitritos", 
-                                 "Cuerpos Cetonicos", "Urobilinogeno", "Celulas Epiteliales", 
-                                 "Bacterias", "Glucosuria", "Proteinuria", "Creatininuria", 
-                                 "Sedimento", "Eritrocitohemoglobina"]
-
                 # --- 2. FILTROS CLÍNICOS ---
                 basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Alto", "Severa"]
 
                 if any(x.upper() in line.upper() for x in ignorar): continue
-                if any(x.upper() in line.upper() for x in ignorar_orina): continue # Salta líneas de orina
                 if any(x.upper() in line.upper() for x in basura_clinica): continue
                 
                 if re.search(r'\d{2}/\d{2}/\d{4}', line): continue
