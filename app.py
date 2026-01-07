@@ -24,12 +24,13 @@ ABREVIACIONES = {
     # Bioquímica / Función Renal / Hepática
     "Nitrogeno Ureico": "BUN", "Urea": "Urea", "Creatinina": "Crea", 
     "Sodio": "Na", "Potasio": "K", "Cloro": "Cl", "Proteina C Reactiva": "PCR", 
-    "Acido Urico": "Ac.Urico", "Calcio": "Ca", "Fosforo": "P", 
+    "Acido Urico": "AU", "Calcio": "Ca", "Fosforo": "P", "Magnesio": "Mg", 
     "Proteinas Totales": "Prot T", "Albumina": "Alb", "Ldh": "LDH", 
     "Fosfatasa Alcalina": "FA", "Got": "GOT", "Ast": "GOT", "Got/Ast": "GOT",
     "Gpt": "GPT", "Alt": "GPT", "Gpt/Alt": "GPT", "Ggt": "GGT", "Gama Glutamil": "GGT",
-    "Colesterol Total": "Col T", "Bilirrubina Total": "BT", "Bilirrubina Directa": "BD", "Bilirrubina Indirecta": "BI", "Procalcitonina": "Procalcitonina",
-    "Troponina T": "Troponina T", "Ck-Total": "CK-Total", "Ck-Mb": "CK-MB",
+    "Colesterol Total": "Col T", "Bilirrubina Total": "BT", "Bilirrubina Directa": "BD", 
+    "Bilirrubina Conjugada": "BD", "Bilirrubina No Conjugada": "BI", "Bilirrubina Indirecta": "BI", 
+    "Procalcitonina": "Procalcitonina", "Troponina T": "Troponina T", "Ck-Total": "CK-Total", "Ck-Mb": "CK-MB",
     
     # Gases
     "Ph": "pH", # <--- NUEVO
