@@ -14,7 +14,7 @@ ABREVIACIONES = {
     # Hematología
     "Hemoglobina": "Hb", "Hematocrito": "Hto", "Recuento De Leucocitos": "GB", 
     "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", 
-    "Vcm": "VCM", "Hcm": "HCM", "Chcm": "CHCM",
+    "Vcm": "VCM", "Recuento de Eritrocitos": "GR", "Hcm": "HCM", "Chcm": "CHCM",
     
     # Coagulación
     "Tiempo De Protrombina": "TP", 
