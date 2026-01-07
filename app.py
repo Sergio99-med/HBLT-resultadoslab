@@ -38,8 +38,12 @@ ABREVIACIONES = {
     "Exceso De Base": "BE", "Acido Lactico": "Lactato", "Tco2": "tCO2", 
     
     # Orina / Otros
-    "Glucosa": "Glu", "Hba1C Hemoglobina Glicada": "HbA1c", "Sedimento Urinario": "Sedimento", 
-    "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
+    "Glucosa": "Glu", "Hba1C Hemoglobina Glicada": "HbA1c", "PTH INTACTA (H.PARATIROIDEA)": "PTH", 
+    "TSH (HORMONA TIROESTIMULANTE)": " TSH", "T4 LIBRE": "T4 L", "T4 TOTAL": "T4 T", 
+    "PSA TOTAL (AG. PROSTATICO)": "PSA T", "PSA ESPECÍFICO (AG. PROSTATICO)": "PSA E", 
+    "COLESTEROL HDL": "HDL", "COLESTEROL LDL": "LDL", "COLESTEROL VLDL": "VLDL", 
+    "INDICE COLESTEROL LDL / HDL": "LDL/HDL", "INDICE COLESTEROL TOTAL / HDL": "Total/HDL", 
+    "Sedimento Urinario": "Sedimento", "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
     "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
 }
 
