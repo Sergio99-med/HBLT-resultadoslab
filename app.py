@@ -59,7 +59,7 @@ def procesar_pdf(archivo_bytes):
                            "Hospital", "Barros", "Luco", "RUT", "Paciente", "Solicitante", 
                            "Validado", "Fecha", "Hora", "Página", "Bioquimico", 
                            "Hematologia", "Coagulacion", "Gases", "Orina Completa", "Urocultivo",
-                           "Inmunoquimica", "Quimica Sanguinea"]
+                           "Inmunoquimica", "Procedencia  Hosp.", "Procedencia", "Quimica Sanguinea"]
                 
                 # --- 2. FILTROS CLÍNICOS ---
                 basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Alto", "Severa"]
