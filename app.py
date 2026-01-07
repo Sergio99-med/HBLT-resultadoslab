@@ -13,7 +13,7 @@ st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 ABREVIACIONES = {
     # Hematología
     "Hemoglobina": "Hb", "Hematocrito": "Hto", "Recuento De Leucocitos": "GB", 
-    "Plaquetas": "Plaquetas", "Recuento De Plaquetas": "Plaq", "Rdw-Cv": "RDW-CV",  
+    "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", "Rdw-Cv": "RDW-CV",  
     "Vcm": "VCM", "Recuento De Eritrocitos": "GR", "Hcm": "HCM", "Chcm": "CHCM",
     
     # Coagulación
@@ -54,19 +54,16 @@ def procesar_pdf(archivo_bytes):
     resultados = []
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
-            # --- INICIO BLOQUE NUEVO (RECORTAR PAGINA) ---
+            # --- RECORTE DE PÁGINA (CROP) ---
+            # Cortamos al 60% del ancho para ignorar la columna "Resultado Anterior"
             try:
                 width = page.width
                 height = page.height
-                # Recortamos para leer solo el 60% izquierdo de la hoja
-                # Así ignoramos la columna de "Resultados Anteriores" a la derecha
                 bounding_box = (0, 0, width * 0.60, height)
                 cropped_page = page.crop(bounding_box)
                 text = cropped_page.extract_text(layout=True)
             except:
-                # Si falla el recorte, lee la página entera como antes
                 text = page.extract_text(layout=True)
-            # --- FIN BLOQUE NUEVO ---
 
             if not text: continue
             lines = text.split('\n')
@@ -83,7 +80,7 @@ def procesar_pdf(archivo_bytes):
                            "Inmunoquimica", "Procedencia  Hosp.", "Procedencia", "Quimica Sanguinea"]
                 
                 # --- 2. FILTROS CLÍNICOS ---
-                basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Cualitativo", "Cel/uL", "mg/dL", "Turbidimetría", "Colorimetría", "Microscopía",
+                basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Cel/uL", "mg/dL", "Turbidimetría", "Colorimetría", "Microscopía",
                                   "Alto", "Severa"]
 
                 if any(x.upper() in line.upper() for x in ignorar): continue
@@ -97,11 +94,20 @@ def procesar_pdf(archivo_bytes):
                 valor = ""
 
                 # --- 3. BÚSQUEDA DEL DATO ---
+                # A) Regex Numérico Estándar
                 match_num = re.search(r'^(.+?)[:\s]+([<>]?-?\d+[.,]?\d*)', line)
-                palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo)'
+                
+                # B) Regex para Rangos (Ej: 0-3 en orina)
+                match_rango = re.search(r'^(.+?)[:\s]+(\d+\s?-\s?\d+)', line)
+
+                # C) Regex Textual (Agregamos "Transparente" para orina)
+                palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo|Transparente)'
                 match_text = re.search(r'^(.+?)[:\s]+(' + palabras_clave + r'.*)$', line, re.IGNORECASE)
 
-                if match_num:
+                if match_rango: # Prioridad a rangos (orina)
+                    nombre = match_rango.group(1).strip()
+                    valor = match_rango.group(2).strip()
+                elif match_num:
                     nombre = match_num.group(1).strip()
                     valor = match_num.group(2).strip()
                     if re.match(r'^\d', nombre): continue 
