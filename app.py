@@ -41,6 +41,7 @@ ABREVIACIONES = {
     "Glucosa": "Glu", "Hba1C Hemoglobina Glicada": "HbA1c", "Sedimento Urinario": "Sedimento", 
     "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
     "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
+}
 
 def procesar_pdf(archivo_bytes):
     resultados = []
