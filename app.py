@@ -43,7 +43,10 @@ ABREVIACIONES = {
     "PSA TOTAL (AG. PROSTATICO)": "PSA T", "PSA ESPECÍFICO (AG. PROSTATICO)": "PSA E", 
     "COLESTEROL HDL": "HDL", "COLESTEROL LDL": "LDL", "COLESTEROL VLDL": "VLDL", 
     "INDICE COLESTEROL LDL / HDL": "LDL/HDL", "INDICE COLESTEROL TOTAL / HDL": "Total/HDL", 
-    "Sedimento Urinario": "Sedimento", "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
+    "Sedimento Urinario": "Sedimento", "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", "Pth Intacta (H.Paratiroidea)": "PTH", 
+    "Tsh (Hormona Tiroestimulante)": " TSH", "T4 Libre": "T4 L", "T4 Total": "T4 T", "Psa Total (Ag. Prostatico)": "PSA T", 
+    "Psa especifico (Ag. Prostatico)": "PSA E", "Colesterol Hdl": "HDL", "Colesterol Ldl": "LDL", "Colesterol VLDL": "VLDL", 
+    "Indice Colesterol Ldl / Hdl": "LDL/HDL", "Indice Colesterol Total / Hdl": "Total/HDL", 
     "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
 }
 
@@ -62,7 +65,7 @@ def procesar_pdf(archivo_bytes):
                 # --- 1. FILTROS DE BASURA ADMINISTRATIVA ---
                 ignorar = ["Avda", "Carrera", "Teléfono", "Miguel", "Ministerio", "Salud", 
                            "Hospital", "Barros", "Luco", "RUT", "Paciente", "Solicitante", 
-                           "Validado", "Fecha", "Hora", "Página", "Bioquimico", 
+                           "Validado", "Fecha", "Hora", "Página", "Bioquimico", "F. Nacimiento", 
                            "Hematologia", "Coagulacion", "Gases", "Orina Completa", "Urocultivo",
                            "Inmunoquimica", "Procedencia  Hosp.", "Procedencia", "Quimica Sanguinea"]
                 
