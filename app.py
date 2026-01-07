@@ -13,7 +13,7 @@ st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 ABREVIACIONES = {
     # Hematología
     "Hemoglobina": "Hb", "Hematocrito": "Hto", "Recuento De Leucocitos": "GB", 
-    "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", 
+    "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", "Rdw-Cv": "RDW-CV",  
     "Vcm": "VCM", "Recuento De Eritrocitos": "GR", "Hcm": "HCM", "Chcm": "CHCM",
     
     # Coagulación
