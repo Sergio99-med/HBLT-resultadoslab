@@ -38,7 +38,7 @@ ABREVIACIONES = {
     "Exceso De Base": "BE", "Acido Lactico": "Lactato", "Tco2": "tCO2", 
     
     # Orina / Otros
-    "Glucosa": "Glu", "Hba1C Hemoglobina Glicada": "HbA1c", "PTH INTACTA (H.PARATIROIDEA)": "PTH", 
+    "Glucosa": "Glu", "Mg De Prot/Gr De Crea Urinario": "Prot/Crea Urinario", "Hba1C Hemoglobina Glicada": "HbA1c", "PTH INTACTA (H.PARATIROIDEA)": "PTH", 
     "TSH (HORMONA TIROESTIMULANTE)": " TSH", "T4 LIBRE": "T4 L", "T4 TOTAL": "T4 T", 
     "PSA TOTAL (AG. PROSTATICO)": "PSA T", "PSA ESPECÍFICO (AG. PROSTATICO)": "PSA E", 
     "COLESTEROL HDL": "HDL", "COLESTEROL LDL": "LDL", "COLESTEROL VLDL": "VLDL", 
