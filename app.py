@@ -54,16 +54,16 @@ def procesar_pdf(archivo_bytes):
     resultados = []
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
-            # --- RECORTE DE PÁGINA (CROP) ---
-            # Cortamos al 60% del ancho para ignorar la columna "Resultado Anterior"
+            # --- AGREGADO: RECORTAR PAGINA PARA IGNORAR COLUMNA DERECHA ---
             try:
                 width = page.width
                 height = page.height
-                bounding_box = (0, 0, width * 0.60, height)
+                bounding_box = (0, 0, width * 0.65, height)
                 cropped_page = page.crop(bounding_box)
                 text = cropped_page.extract_text(layout=True)
             except:
                 text = page.extract_text(layout=True)
+            # --------------------------------------------------------------
 
             if not text: continue
             lines = text.split('\n')
@@ -94,17 +94,18 @@ def procesar_pdf(archivo_bytes):
                 valor = ""
 
                 # --- 3. BÚSQUEDA DEL DATO ---
-                # A) Regex Numérico Estándar
+                
+                # A. BUSQUEDA DE NUMEROS (Tu lógica original)
                 match_num = re.search(r'^(.+?)[:\s]+([<>]?-?\d+[.,]?\d*)', line)
                 
-                # B) Regex para Rangos (Ej: 0-3 en orina)
+                # B. BUSQUEDA DE RANGOS (AGREGADO: Para leer "0-3" en orina)
                 match_rango = re.search(r'^(.+?)[:\s]+(\d+\s?-\s?\d+)', line)
 
-                # C) Regex Textual (Agregamos "Transparente" para orina)
-                palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo|Transparente)'
+                # C. BUSQUEDA DE TEXTO (AGREGADO: "Transparente" y "No se Observa")
+                palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo|Transparente|No se Observa)'
                 match_text = re.search(r'^(.+?)[:\s]+(' + palabras_clave + r'.*)$', line, re.IGNORECASE)
 
-                if match_rango: # Prioridad a rangos (orina)
+                if match_rango: # Prioridad al rango si existe
                     nombre = match_rango.group(1).strip()
                     valor = match_rango.group(2).strip()
                 elif match_num:
