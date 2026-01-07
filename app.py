@@ -54,7 +54,20 @@ def procesar_pdf(archivo_bytes):
     resultados = []
     with pdfplumber.open(archivo_bytes) as pdf:
         for page in pdf.pages:
-            text = page.extract_text(layout=True)
+            # --- INICIO BLOQUE NUEVO (RECORTAR PAGINA) ---
+            try:
+                width = page.width
+                height = page.height
+                # Recortamos para leer solo el 60% izquierdo de la hoja
+                # Así ignoramos la columna de "Resultados Anteriores" a la derecha
+                bounding_box = (0, 0, width * 0.60, height)
+                cropped_page = page.crop(bounding_box)
+                text = cropped_page.extract_text(layout=True)
+            except:
+                # Si falla el recorte, lee la página entera como antes
+                text = page.extract_text(layout=True)
+            # --- FIN BLOQUE NUEVO ---
+
             if not text: continue
             lines = text.split('\n')
             
