@@ -13,7 +13,7 @@ st.markdown("### Sube tu PDF del Barros Luco y obtén los resultados.")
 ABREVIACIONES = {
     # Hematología
     "Hemoglobina": "Hb", "Hematocrito": "Hto", "Recuento De Leucocitos": "GB", 
-    "Plaquetas": "Plaquetas", "Recuento De Plaquetas": "Plaq", "Rdw-Cv": "RDW-CV",  
+    "Plaquetas": "Plaq", "Recuento De Plaquetas": "Plaq", "Rdw-Cv": "RDW-CV",  
     "Vcm": "VCM", "Recuento De Eritrocitos": "GR", "Hcm": "HCM", "Chcm": "CHCM",
     
     # Coagulación
@@ -97,11 +97,18 @@ def procesar_pdf(archivo_bytes):
                 valor = ""
 
                 # --- 3. BÚSQUEDA DEL DATO ---
+                # Regex para buscar numeros simples
                 match_num = re.search(r'^(.+?)[:\s]+([<>]?-?\d+[.,]?\d*)', line)
+                # Regex para buscar rangos (ej: 0 - 3) <--- NUEVO AGREGADO
+                match_rango = re.search(r'^(.+?)[:\s]+(\d+\s?-\s?\d+)', line)
+                # Regex para buscar texto
                 palabras_clave = r'(Positivo|Negativo|Normal|Amarillo|Ambar|Turbio|Limpido|Escaso|Regular|Abundante|Indeterminado|Reactivo|No Reactivo)'
                 match_text = re.search(r'^(.+?)[:\s]+(' + palabras_clave + r'.*)$', line, re.IGNORECASE)
 
-                if match_num:
+                if match_rango: # <--- NUEVO: Prioridad a rangos
+                    nombre = match_rango.group(1).strip()
+                    valor = match_rango.group(2).strip()
+                elif match_num:
                     nombre = match_num.group(1).strip()
                     valor = match_num.group(2).strip()
                     if re.match(r'^\d', nombre): continue 
