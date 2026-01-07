@@ -38,7 +38,7 @@ ABREVIACIONES = {
     "Exceso De Base": "BE", "Acido Lactico": "Lactato", "Tco2": "tCO2", 
     
     # Orina / Otros
-    "Glucosa": "Glu", "Sedimento Urinario": "Sedimento", 
+    "Glucosa": "Glu", "Hba1C Hemoglobina Glicada": "HbA1c", "Sedimento Urinario": "Sedimento", 
     "Aspecto": "Aspecto", "Color": "Color", "Cetonas": "Cetonas", 
     "Nitritos": "Nitritos", "Glucosa En Orina": "Glu.Orina"
 }
