@@ -22,7 +22,7 @@ ABREVIACIONES = {
     "Tiempo De Tromboplastina": "TTPA", "Inr": "INR",
     
     # Bioquímica / Función Renal / Hepática
-    "Nitrogeno Ureico": "BUN", "Urea": "Urea", "Creatinina": "Crea", 
+    "Nitrogeno Ureico": "BUN", "Urea": "Urea", "Creatinina": "Crea", "CREATININA": "Crea", 
     "Sodio": "Na", "Potasio": "K", "Cloro": "Cl", "Proteina C Reactiva": "PCR", 
     "Acido Urico": "AU", "Calcio": "Ca", "Fosforo": "P", "Magnesio": "Mg", 
     "Proteinas Totales": "Prot T", "Albumina": "Alb", "Ldh": "LDH", 
