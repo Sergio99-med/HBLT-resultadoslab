@@ -83,7 +83,7 @@ def procesar_pdf(archivo_bytes):
                            "Inmunoquimica", "Procedencia  Hosp.", "Procedencia", "Quimica Sanguinea"]
                 
                 # --- 2. FILTROS CLÍNICOS ---
-                basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Cualitativo", "Cel/uL", "mg/dL", "Turbidimetría", "Colorimetría", "Microscopía",
+                basura_clinica = ["Septico", "Sepsis", "Choque", "Riesgo", "Representa", "Bajo", "Cualitativo", "Turbidimetría", "Colorimetría", "Microscopía",
                                   "Alto", "tCO2", "Severa"]
 
                 if any(x.upper() in line.upper() for x in ignorar): continue
